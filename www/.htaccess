@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Allow only static assets to be served directly
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf)$
+
+# Redirect everything else to index.php
+RewriteRule ^(.*)$ index.php [L,QSA]
