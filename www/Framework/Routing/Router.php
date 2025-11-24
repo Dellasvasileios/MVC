@@ -1,7 +1,6 @@
 <?php
 namespace Framework\Routing;
 
-require_once BASE_PATH . 'Framework/Routing/IRouter.php';
 use Framework\Routing\IRouter;
 
 class Router implements IRouter
@@ -40,7 +39,8 @@ class Router implements IRouter
                     return $controller->{$action}($params);
                 }
 
-                return $controller->{$action}();
+                $controller->{$action}();
+                return true;
             }
         }
 

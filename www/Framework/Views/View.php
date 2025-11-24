@@ -2,8 +2,6 @@
 
 namespace Framework\Views;
 
-require_once BASE_PATH . "Framework/Views/IView.php";
-
 class View implements IView
 {
   public function get_view(string $view_name, array $data): string{

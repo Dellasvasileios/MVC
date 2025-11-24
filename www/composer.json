@@ -1,0 +1,19 @@
+{
+  "name": "element/mvc",
+  "description": "MVC PHP Project",
+  "type": "project",
+  "require": {
+    "php": ">=8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "Framework/",
+      "Controllers\\": "Controllers/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  }
+}

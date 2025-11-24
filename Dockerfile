@@ -34,6 +34,9 @@ RUN apt-get update && apt-get install -y \
         fileinfo \
         bz2
 
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
@@ -42,4 +45,3 @@ COPY php.ini /usr/local/etc/php/
 
 # Set working directory
 WORKDIR /var/www/html
-
