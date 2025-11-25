@@ -10,7 +10,7 @@ composer install (inside folder www)
 
 ./vendor/bin/phpunit
 
-#Run with docker
+# Run with docker
 1) docker-composer up -d --build
 2) http://localhost:80
 
