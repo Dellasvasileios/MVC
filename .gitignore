@@ -3,3 +3,4 @@
 /.idea/
 /www/tutorials-readme/
 /www/vendor/
+/www/.phpunit.result.cache
