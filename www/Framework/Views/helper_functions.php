@@ -7,7 +7,7 @@ function view(string $view_name, array $data)
     echo $view->get_view($view_name, $data);
 }
 
-function render_layout(string $layout_name, array $data , $controller = '' , $action = '')
+function render_layout(string $layout_name, array $data , $controller = '' , $action = '' , $params = [])
 {
     if (!empty($controller) && !empty($action)) {
         $controllerClass = ltrim($controller, '\\');
@@ -17,7 +17,13 @@ function render_layout(string $layout_name, array $data , $controller = '' , $ac
                 $ctrl = new $controllerClass();
 
                 if (method_exists($ctrl, $action)) {
-                    $result = $ctrl->{$action}();
+
+                    if(is_array($params) && !empty($params)){
+                        $result = $ctrl->{$action}($params);
+                    }
+                    else{
+                        $result = $ctrl->{$action}();
+                    }
 
                     if (is_array($result)) {
                         $data = array_merge($data, $result);

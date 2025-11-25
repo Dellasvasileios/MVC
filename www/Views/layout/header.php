@@ -15,5 +15,5 @@
 
 <main id="app">
     <!-- page content -->
-<?= $header_data ?>
+
 
