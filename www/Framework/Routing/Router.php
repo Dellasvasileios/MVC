@@ -2,12 +2,19 @@
 namespace Framework\Routing;
 
 use Framework\Routing\IRouter;
+use Framework\Controllers\IController;
 
 class Router implements IRouter
 {
     private array $routes = [];
 
-
+    /*
+     *  Register a route
+     *  $param method string HTTP method (GET, POST) case-insensitive
+     *  $param route string The route pattern, e.g. /posts/{id}
+     *  $param controllerClass string The controller class name, e.g. PostController::class
+     *  $param action string The action method name, e.g. show
+     * */
     public function add(string $method, string $route, string $controllerClass, string $action): void
     {
         $this->routes[] = [
@@ -19,6 +26,10 @@ class Router implements IRouter
     }
 
 
+    // Dispatch the request to the appropriate controller action
+    // @param method string HTTP method (GET, POST)
+    // @param url string The requested URL
+    // @return mixed The result of the controller action as a string
     public function dispatch(string $method, string $url): string
     {
         $method = strtoupper($method);
@@ -39,8 +50,8 @@ class Router implements IRouter
                     return $controller->{$action}($params);
                 }
 
-                $controller->{$action}();
-                return true;
+                return $controller->{$action}();
+
             }
         }
 
@@ -48,7 +59,15 @@ class Router implements IRouter
 
     }
 
-    private function matchRoute(string $url, string $route): ?array
+    /*
+     * Match a URL against a route pattern
+     * @param url string The requested URL
+     * @param route string The route pattern
+     * @return array|null An associative array of parameters if matched, null otherwise
+     *
+     * corner cases:
+     */
+    protected function matchRoute(string $url, string $route): ?array
     {
         $pattern = $this->buildPattern($route);
         $paramNames = $this->extractParamNames($route);
@@ -78,9 +97,12 @@ class Router implements IRouter
 
         return array_combine($paramNames, $values) ?: [];
     }
-
-    // php
-    private function buildPattern(string $route): string
+    /*
+     * Build a regex pattern from the route
+     *
+     * corner cases:
+     */
+    protected function buildPattern(string $route): string
     {
         // handle segments like /{name?} -> required slash, optional capturing
         $pattern = preg_replace_callback(
@@ -107,8 +129,12 @@ class Router implements IRouter
 
 
 
-
-    private function extractParamNames(string $route): array
+    /*
+     * Extract parameter names from the route
+     * @param route string The route pattern
+     * @return array An array of parameter names
+     */
+    protected function extractParamNames(string $route): array
     {
         preg_match_all('/\{([a-zA-Z_][a-zA-Z0-9_]*)(\?)?\}/', $route, $matches);
         return $matches[1];
